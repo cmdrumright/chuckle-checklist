@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react"
 import "./App.css"
-import {getJokes, saveJoke} from "./services/jokeService.jsx"
+import {setJokeTold, getJokes, saveJoke} from "./services/jokeService.jsx"
 import stevePic from "./assets/steve.png"
 
 export const App = () => {
@@ -22,6 +22,16 @@ export const App = () => {
         setAllJokes(jokes)
         setUntoldJokes(newJokes)
         setToldJokes(oldJokes)
+    }
+    
+    const tellJoke = async (id) => {
+        await setJokeTold(id, true)
+        updateJokeList()
+    }
+
+    const untellJoke = async (id) => {
+        await setJokeTold(id, false)
+        updateJokeList()
     }
 
     useEffect(() => {updateJokeList()}, [])
@@ -54,6 +64,7 @@ export const App = () => {
                 {untoldJokes.map((joke) => {
                     return ( <section className="joke-list-item" key={joke.id}>
                         <p className="joke-list-item-text">{joke.text}</p>
+                        <button className="joke-list-item-toggle" onClick={() => {tellJoke(joke.id)}}>told</button>
                     </section>)
                 })}
             </div>
@@ -64,6 +75,7 @@ export const App = () => {
                 {toldJokes.map((joke) => {
                     return ( <section className="joke-list-item" key={joke.id}>
                         <p className="joke-list-item-text">{joke.text}</p>
+                        <button className="joke-list-item-toggle" onClick={() => {untellJoke(joke.id)}}>untold</button>
                     </section>)
                 })}
             </div>
