@@ -1,4 +1,4 @@
-export const saveJoke = (newText) => {
+export const saveJoke = async (newText) => {
     const newJoke = {
         text: newText,
         told: false
@@ -12,5 +12,11 @@ export const saveJoke = (newText) => {
         body: JSON.stringify(newJoke)
     }
 
-    fetch("http://localhost:8088/jokes", postOptions)
+    await fetch("http://localhost:8088/jokes", postOptions)
+}
+
+export const getJokes = async () => {
+    const response = await fetch("http://localhost:8088/jokes")
+    const jokes = await response.json()
+    return jokes
 }
