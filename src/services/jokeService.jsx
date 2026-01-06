@@ -36,3 +36,10 @@ export const setJokeTold = async (id, told) => {
 
     await fetch(`http://localhost:8088/jokes/${id}`, postOptions)
 }
+
+export const deleteJoke = async (id) => {
+    const postOptions = {
+    	method: "DELETE"
+    }
+    await fetch(`http://localhost:8088/jokes/${id}`, postOptions)
+}

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react"
 import "./App.css"
-import {setJokeTold, getJokes, saveJoke} from "./services/jokeService.jsx"
+import {deleteJoke, setJokeTold, getJokes, saveJoke} from "./services/jokeService.jsx"
 import stevePic from "./assets/steve.png"
 
 export const App = () => {
@@ -34,6 +34,11 @@ export const App = () => {
         updateJokeList()
     }
 
+    const removeJoke = async (id) => {
+        await deleteJoke(id)
+        updateJokeList()
+    }
+
     useEffect(() => {updateJokeList()}, [])
     
     return <div className="app-container">
@@ -64,7 +69,8 @@ export const App = () => {
                 {untoldJokes.map((joke) => {
                     return ( <section className="joke-list-item" key={joke.id}>
                         <p className="joke-list-item-text">{joke.text}</p>
-                        <button className="joke-list-item-toggle" onClick={() => {tellJoke(joke.id)}}>told</button>
+                        <button className="joke-list-action-toggle" onClick={() => {tellJoke(joke.id)}}>told</button>
+                        <button className="joke-list-action-delete" onClick={() => {removeJoke(joke.id)}}>delete</button>
                     </section>)
                 })}
             </div>
@@ -75,7 +81,8 @@ export const App = () => {
                 {toldJokes.map((joke) => {
                     return ( <section className="joke-list-item" key={joke.id}>
                         <p className="joke-list-item-text">{joke.text}</p>
-                        <button className="joke-list-item-toggle" onClick={() => {untellJoke(joke.id)}}>untold</button>
+                        <button className="joke-list-action-toggle" onClick={() => {untellJoke(joke.id)}}>untold</button>
+                        <button className="joke-list-action-delete" onClick={() => {removeJoke(joke.id)}}>delete</button>
                     </section>)
                 })}
             </div>
