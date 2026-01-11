@@ -1,20 +1,14 @@
 import {useEffect, useState} from "react"
 import "./App.css"
-import {deleteJoke, setJokeTold, getJokes, saveJoke} from "./services/jokeService.jsx"
+import {deleteJoke, setJokeTold, getJokes} from "./services/jokeService.jsx"
+import {AddJoke} from "./components/AddJoke.jsx"
 import stevePic from "./assets/steve.png"
 
 export const App = () => {
-    const [newJoke, setNewJoke] = useState("")
     const [allJokes, setAllJokes] = useState([])
     const [untoldJokes, setUntoldJokes] = useState([])
     const [toldJokes, setToldJokes] = useState([])
 
-    const saveButton = async () => {
-        await saveJoke(newJoke)
-        setNewJoke("")
-        updateJokeList()
-    }
-    
     const updateJokeList = async () => {
         const jokes = await getJokes()
         const newJokes = jokes.filter((joke) => joke.told === false)
@@ -48,19 +42,7 @@ export const App = () => {
             </div>
             <h1 className="app-heading-text">Chuckle Checklist</h1>
         </div>
-            <h2>Add Joke</h2>
-        <div className="joke-add-form">
-            <input
-                className="joke-input"
-                type="text"
-                value={newJoke}
-                placeholder="New One Liner"
-                onChange={(event) => {
-                    setNewJoke(event.target.value)
-                }}
-            />
-            <button className="joke-input-submit" onClick={saveButton}>Add</button>
-        </div>
+        <AddJoke updateJokeList = {updateJokeList} />
         <div className="joke-lists-container">
             <div className="joke-list-container">
                 <h2>Untold
